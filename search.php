@@ -71,8 +71,8 @@ Actor name: <input type="text" name="actor">
             </tr>";
             foreach($movies as $mid => $title) {
                 echo "<tr> 
-                <td><a href='http://localhost:8888/movie.php?id=$mid'>$title[0]</a></td>
-                <td><a href='http://localhost:8888/movie.php?id=$mid'>$title[1]</a></td>
+                <td><a href='movie.php?id=$mid'>$title[0]</a></td>
+                <td><a href='movie.php?id=$mid'>$title[1]</a></td>
                 </tr>";
                 // print "<a href='http://localhost:8888/actor.php?id=$id'>$name[0] $name[1]</a><br>";
             }
@@ -117,8 +117,8 @@ Actor name: <input type="text" name="actor">
             </tr>";
             foreach($actors as $id => $name) {
                 echo "<tr> 
-                <td><a href='http://localhost:8888/actor.php?id=$id'>$name[0] $name[1]</a></td>
-                <td><a href='http://localhost:8888/actor.php?id=$id'>$name[2]</a></td>
+                <td><a href='actor.php?id=$id'>$name[0] $name[1]</a></td>
+                <td><a href='actor.php?id=$id'>$name[2]</a></td>
                 </tr>";
                 // print "<a href='http://localhost:8888/actor.php?id=$id'>$name[0] $name[1]</a><br>";
             }
