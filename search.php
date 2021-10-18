@@ -34,7 +34,7 @@ Movie title: <input type="text" name="movie">
 Actor name: <input type="text" name="actor">
 <a href="javascript: submit_actor()"><button>Search Actor!</button></a>
 </form>
-<a href='http://localhost:8888/'>Back to main page</a><br>
+<a href='./index.php'>Back to main page</a><br>
 <?php
     if (isset($_GET["movie"])) {
         $db = new mysqli('localhost', 'cs143', '', 'class_db');
@@ -109,7 +109,8 @@ Actor name: <input type="text" name="actor">
         }
         else
         {
-            echo "Search result(s) for Actors with name: $actor_names <br>";
+            $search_actor_name = implode(" ", $actor_names);
+            echo "Search result(s) for Actors with name: $search_actor_name <br>";
             echo "<table>
             <tr>
               <th>Name</th><th>Date of Birth</th>

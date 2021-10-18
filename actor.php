@@ -69,7 +69,7 @@ echo "<table>
     </tr>";
 foreach($movies as $mid => $title)  {
     echo "<tr> 
-    <td><a href='http://localhost:8888/movie.php?id=$mid'>$title</a></td>
+    <td><a href='movie.php?id=$mid'>$title</a></td>
     </tr>";
     // print "<a href='http://localhost:8888/actor.php?id=$id'>$name[0] $name[1]</a><br>";
 }
@@ -79,7 +79,7 @@ echo "</table><br>";
 $rs->free();
 
 $db -> close();
-print "<a href='http://localhost:8888/'>Back to main page</a><br>";
+print "<a href='index.php'>Back to main page</a><br>";
 ?>
 </body>
 </html>

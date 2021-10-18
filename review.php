@@ -1,5 +1,6 @@
 <html>
 <body>
+<!-- in the follwing code, the style are from w3schools-->
 <style>
     /* Style inputs with type="text", select elements and textareas */
     input[type=text], select, textarea {
@@ -31,11 +32,12 @@
 </style>
 <?php
 
-$mid = $_GET["id"];
-print "<div class='container'>
-            <form action='review.php' method='get'>
-                <label for='id'>Movie Id: </label><br>
-                    <select id='id' name='id'>
+if($mid = $_GET["id"])
+{
+    print "<div class='container'>
+            <form action='review.php' method='post'>
+                <label for='mid'>Movie Id: </label><br>
+                    <select id='mid' name='mid'>
                         <option value=$mid>$mid</option>
                     </select><br>
                 <label for='name'>Name: </label><br> 
@@ -54,13 +56,34 @@ print "<div class='container'>
                 <button type='submit' class='btn btn-default'>Rating it!</button>
             </form>
         </div>";
+} else {
+    print "<div class='container'>
+            <form action='review.php' method='post'>
+                <label for='name'>Name: </label><br> 
+                <input type='text' name='name' placeholder='no more than 20 characters' maxlength='20'><br>
+                <label id='rating'>Rating(between 1 and 5): </label><br>
+                    <select id='rating' name='rating'>
+                        <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option>
+                        <option value='5'>5</option>
+                    </select><br>
+                <label for='comment'>Comment: </label><br>
+                    <textarea name='comment' rows='10' cols='30' maxlength='500' placeholder='no more than 500 characters'
+                        style='font-family:Arial;'></textarea><br>
+                <button type='submit' class='btn btn-default'>Rating it!</button>
+            </form>
+        </div>";
+}
 
-$mid = $_GET["id"];
-$name = $_GET["name"];
-$rating = $_GET["rating"];
-$comment = $_GET["comment"];
 
-if (isset($_GET["id"], $_GET["name"], $_GET["rating"], $_GET["comment"])) {
+$mid = $_POST["mid"];
+$name = $_POST["name"];
+$rating = $_POST["rating"];
+$comment = $_POST["comment"];
+
+if ($mid) {
     $db = new mysqli('localhost', 'cs143', '', 'class_db');
     if ($db -> connect_errno > 0) {
         die('Unable to connect to database ['. $db -> connect_error .']');
@@ -75,7 +98,7 @@ if (isset($_GET["id"], $_GET["name"], $_GET["rating"], $_GET["comment"])) {
     $statement -> close();
     $db -> close();
 }
-print "<br><a href='http://localhost:8888/'>Back to main page</a><br>";
+print "<br><a href='index.php'>Back to main page</a><br>";
 ?>
 </body>
 </html>

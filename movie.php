@@ -15,7 +15,7 @@
 </style>
 <body>
 <?php
-print "<a href='http://localhost:8888/'>Back to main page</a><br>";
+print "<a href='index.php'>Back to main page</a><br>";
 $db = new mysqli('localhost', 'cs143', '', 'class_db');
 if ($db -> connect_errno > 0) {
     die('Unable to connect to database ['. $db -> connect_error .']');
@@ -86,8 +86,8 @@ else
     </tr>";
     foreach ($actors as $aid => $namerole) {
         echo "<tr> 
-        <td><a href='http://localhost:8888/actor.php?id=$aid'>$aid</a></td>
-        <td><a href='http://localhost:8888/actor.php?id=$aid'>$namerole[1] $namerole[0]</a></td>
+        <td><a href='actor.php?id=$aid'>$aid</a></td>
+        <td><a href='actor.php?id=$aid'>$namerole[1] $namerole[0]</a></td>
         <td>$namerole[2]</td>
         </tr>";
         // print "<a href='http://localhost:8888/actor.php?id=$id'>$name[0] $name[1]</a><br>";
@@ -121,7 +121,7 @@ else
 }
 print "<br>";
 
-print "<a href='http://localhost:8888/review.php?id=$info[0]'>
+print "<a href='review.php?id=$info[0]'>
     <button>add Comment</button>
 </a>";
 
