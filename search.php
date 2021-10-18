@@ -109,7 +109,7 @@ Actor name: <input type="text" name="actor">
         }
         else
         {
-            echo "Search result(s) for Actors with name: $actor_name <br>";
+            echo "Search result(s) for Actors with name: $actor_names <br>";
             echo "<table>
             <tr>
               <th>Name</th><th>Date of Birth</th>

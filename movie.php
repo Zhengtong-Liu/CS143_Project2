@@ -22,10 +22,10 @@ if ($db -> connect_errno > 0) {
 }
 $id = $_GET["id"];
 $query = "WITH M AS (
-            SELECT R.name AS name, R.time AS time, R.mid AS mid, 
-                R.rating AS score, R.comment AS comment, M.id AS mmid,
-                M.title AS title, M.year AS year, M.rating AS rating, M.company AS company,
-                AVG(R.rating) OVER(PARTITION BY R.mid) AS avg_score
+            SELECT name, time, mid, 
+                R.rating AS score, comment, M.id AS mmid,
+                title, year, M.rating AS rating, company,
+                AVG(R.rating) OVER(PARTITION BY mid) AS avg_score
             FROM Review R
             RIGHT OUTER JOIN Movie M
             ON R.mid = M.id

@@ -58,7 +58,7 @@ echo "<table>
   <th>Id</th><th>Name</th><th>Sex</th><th>Born</th><th>Died</th>
 </tr>
 <tr>
-  <td>$id</td><td>#$info[1] $info[2]</td><td>$info[3]</td><td>$info[4]</td><td>$info[5]</td>
+  <td>$id</td><td>$info[1] $info[2]</td><td>$info[3]</td><td>$info[4]</td><td>$info[5]</td>
 </tr>
 </table>";
 

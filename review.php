@@ -1,22 +1,66 @@
 <html>
 <body>
+<style>
+    /* Style inputs with type="text", select elements and textareas */
+    input[type=text], select, textarea {
+    width: 50%; /* Full width */
+    padding: 12px; /* Some padding */ 
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 4px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    margin-top: 6px; /* Add a top margin */
+    margin-bottom: 16px; /* Bottom margin */
+    resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+    }
+
+    /* Style the submit button with a specific background color etc */
+    input[type=submit] {
+    background-color: #e7e7e7;
+    color: black;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    }
+
+    /* Add a background color and some padding around the form */
+    /* .container {
+    border-radius: 5px;
+    padding: 20px;
+    } */
+</style>
 <?php
 
 $mid = $_GET["id"];
-print "<form action='review.php' method='get'>
-Movie Id: <input type='number' name='id' value=$mid><br>
-Name: <input type='text' name='name'><br>
-Rating(between 1 and 5): <input type='number' name='rating' min='1', max='5'><br>
-Comment: <input type='text' name='comment'><br>
-<input type='submit' name='submit'>
-</form>";
+print "<div class='container'>
+            <form action='review.php' method='get'>
+                <label for='id'>Movie Id: </label><br>
+                    <select id='id' name='id'>
+                        <option value=$mid>$mid</option>
+                    </select><br>
+                <label for='name'>Name: </label><br> 
+                <input type='text' name='name' placeholder='no more than 20 characters' maxlength='20'><br>
+                <label id='rating'>Rating(between 1 and 5): </label><br>
+                    <select id='rating' name='rating'>
+                        <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option>
+                        <option value='5'>5</option>
+                    </select><br>
+                <label for='comment'>Comment: </label><br>
+                    <textarea name='comment' rows='10' cols='30' maxlength='500' placeholder='no more than 500 characters'
+                        style='font-family:Arial;'></textarea><br>
+                <button type='submit' class='btn btn-default'>Rating it!</button>
+            </form>
+        </div>";
 
 $mid = $_GET["id"];
 $name = $_GET["name"];
 $rating = $_GET["rating"];
 $comment = $_GET["comment"];
 
-if (isset($_GET["submit"])) {
+if (isset($_GET["id"], $_GET["name"], $_GET["rating"], $_GET["comment"])) {
     $db = new mysqli('localhost', 'cs143', '', 'class_db');
     if ($db -> connect_errno > 0) {
         die('Unable to connect to database ['. $db -> connect_error .']');
