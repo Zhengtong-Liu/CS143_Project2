@@ -31,6 +31,7 @@ if (isset($_GET["submit"])) {
     $statement -> close();
     $db -> close();
 }
+print "<br><a href='http://localhost:8888/'>Back to main page</a><br>";
 ?>
 </body>
 </html>

@@ -1,6 +1,21 @@
 <html>
+<!-- in the follwing code, the style are from w3schools-->
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }tr:nth-child(even) {
+      background-color: #dddddd;
+    } 
+</style>
 <body>
 <?php
+print "<a href='http://localhost:8888/'>Back to main page</a><br>";
 $db = new mysqli('localhost', 'cs143', '', 'class_db');
 if ($db -> connect_errno > 0) {
     die('Unable to connect to database ['. $db -> connect_error .']');
@@ -8,7 +23,7 @@ if ($db -> connect_errno > 0) {
 $id = $_GET["id"];
 $query = "WITH M AS (
             SELECT R.name AS name, R.time AS time, R.mid AS mid, 
-                R.rating AS score, R.comment AS comment, M.id AS id,
+                R.rating AS score, R.comment AS comment, M.id AS mmid,
                 M.title AS title, M.year AS year, M.rating AS rating, M.company AS company,
                 AVG(R.rating) OVER(PARTITION BY R.mid) AS avg_score
             FROM Review R
@@ -17,8 +32,8 @@ $query = "WITH M AS (
             WHERE M.id = $id
             )
             SELECT * 
-            FROM M, MovieActor A, MovieGenre G
-            WHERE M.id = A.mid AND G.mid = A.mid
+            FROM M, MovieActor A, MovieGenre G, Actor AC
+            WHERE M.mmid = A.mid AND G.mid = A.mid AND AC.id = A.aid
             ";
 $rs = $db -> query($query);
 
@@ -35,10 +50,10 @@ $reviews = array();
 $avg_score = array();
 
 while ($row = $rs -> fetch_assoc()) {
-    array_push($info, array($row['id'], $row['title'], $row['year'], $row['rating'], $row['company']));
+    array_push($info, array($row['mmid'], $row['title'], $row['year'], $row['rating'], $row['company']));
     array_push($genres, $row['genre']);
     $reviews[$row['time']] = array($row['name'], $row['score'], $row['comment']);
-    $actors[$row['aid']] = $row['role'];
+    $actors[$row['aid']] = array($row['last'],$row['first'],$row['role']);
     array_push($avg_score, $row['avg_score']);
 }
 $info = array_unique($info)[0];
@@ -56,14 +71,31 @@ foreach ($genres as $genre) {
     print "$genre ";
 }
 print "<br>";
-
 print "<p>";
-foreach ($actors as $aid => $role) {
-    print "<a href='http://localhost:8888/actor.php?id=$aid'>Actor: $aid, Role: $role</a><br>";
+
+if (count($actors) < 1)
+{
+    print "We did not find any actors for the movie: $$info[1] <br>" ;
+}
+else
+{
+    echo "Actors in this movie:<br>";
+    echo "<table>
+    <tr>
+      <th>ID</th><th>Name</th><th>Role</th>
+    </tr>";
+    foreach ($actors as $aid => $namerole) {
+        echo "<tr> 
+        <td><a href='http://localhost:8888/actor.php?id=$aid'>$aid</a></td>
+        <td><a href='http://localhost:8888/actor.php?id=$aid'>$namerole[1] $namerole[0]</a></td>
+        <td>$namerole[2]</td>
+        </tr>";
+        // print "<a href='http://localhost:8888/actor.php?id=$id'>$name[0] $name[1]</a><br>";
+    }
+    echo "</table><br>";
 }
 print "</p>";
 
-print "Average rating from the users: $avg_score/5 <br>";
 
 
 print "Comments from the users: <br>";
@@ -74,6 +106,18 @@ foreach ($reviews as $time  => $review) {
         Rating score: $review[1]<br>
         Comment: $review[2]<br></p>";
     }
+    else
+    {
+        print "Empty comment! <br>";
+    }
+}
+if ($avg_score == NULL)
+{
+    print "We don't have ratings for this movie yet!<br>";
+}
+else
+{
+    print "Average rating from the users: $avg_score/5 <br>";
 }
 print "<br>";
 

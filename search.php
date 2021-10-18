@@ -1,4 +1,18 @@
 <html>
+<!-- in the follwing code, the style are from w3schools-->
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }tr:nth-child(even) {
+      background-color: #dddddd;
+    } 
+</style>
 <body>
 
 <script type="text/javascript">
@@ -20,6 +34,7 @@ Movie title: <input type="text" name="movie">
 Actor name: <input type="text" name="actor">
 <a href="javascript: submit_actor()"><button>Search Actor!</button></a>
 </form>
+<a href='http://localhost:8888/'>Back to main page</a><br>
 <?php
     if (isset($_GET["movie"])) {
         $db = new mysqli('localhost', 'cs143', '', 'class_db');
@@ -40,12 +55,28 @@ Actor name: <input type="text" name="actor">
         }
         $movies = array();
         while ($row = $rs->fetch_assoc()) {
-            $movies[$row['id']] = $row['title'];
+            $movies[$row['id']] = array($row['title'], $row['year']);
         }
         
-        print "Search result(s) for Movies: <br>";
-        foreach($movies as $mid => $title) {
-            print "<a href='http://localhost:8888/movie.php?id=$mid'>$title</a><br>";
+        if (count($movies) < 1)
+        {
+            print "We didn't find any Movie that has similar name: $movie_name. Please double check! <br>";
+        }
+        else
+        {
+            print "Search result(s) for Movies: <br>";
+            echo "<table>
+            <tr>
+              <th>Movie Title</th><th>Year</th>
+            </tr>";
+            foreach($movies as $mid => $title) {
+                echo "<tr> 
+                <td><a href='http://localhost:8888/movie.php?id=$mid'>$title[0]</a></td>
+                <td><a href='http://localhost:8888/movie.php?id=$mid'>$title[1]</a></td>
+                </tr>";
+                // print "<a href='http://localhost:8888/actor.php?id=$id'>$name[0] $name[1]</a><br>";
+            }
+            echo "</table><br>";
         }
         $rs->free();
         $db -> close();
@@ -70,12 +101,27 @@ Actor name: <input type="text" name="actor">
         }
         $actors = array();
         while ($row = $rs->fetch_assoc()) {
-            $actors[$row['id']] = array($row['first'], $row['last']);
+            $actors[$row['id']] = array($row['first'], $row['last'], $row['dob']);
         }
-        
-        print "Search result(s) for Actors: <br>";
-        foreach($actors as $id => $name) {
-            print "<a href='http://localhost:8888/actor.php?id=$id'>$name[0] $name[1]</a><br>";
+        if (count($actors) < 1)
+        {
+            print "We didn't find any Actor that has similar lastname or firstname: $actor_name, please double check! <br>";
+        }
+        else
+        {
+            echo "Search result(s) for Actors with name: $actor_name <br>";
+            echo "<table>
+            <tr>
+              <th>Name</th><th>Date of Birth</th>
+            </tr>";
+            foreach($actors as $id => $name) {
+                echo "<tr> 
+                <td><a href='http://localhost:8888/actor.php?id=$id'>$name[0] $name[1]</a></td>
+                <td><a href='http://localhost:8888/actor.php?id=$id'>$name[2]</a></td>
+                </tr>";
+                // print "<a href='http://localhost:8888/actor.php?id=$id'>$name[0] $name[1]</a><br>";
+            }
+            echo "</table><br>";
         }
         $rs->free();
         $db -> close();
